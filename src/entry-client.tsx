@@ -1,7 +1,4 @@
-import ReactDOM from 'react-dom/client'
-import App from './app'
+import ReactDOM from "react-dom/client";
+import App from "./app";
 
-ReactDOM.hydrateRoot(
-  document.getElementById('app'),
-  <App />
-)
+ReactDOM.hydrateRoot(document.getElementById("app") as HTMLElement, <App />);
