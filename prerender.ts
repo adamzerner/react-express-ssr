@@ -3,16 +3,15 @@
 
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const toAbsolute = (p) => path.resolve(__dirname, p);
 
 const template = fs.readFileSync(toAbsolute("dist/static/index.html"), "utf-8");
-// @ts-expect-error The file will exist after running `npm run build`.
+// @ts-expect-error The file will exist after running `npm run build`
 const { render } = await import("./dist/server/entry-server");
 
-// determine routes to pre-render from src/pages
+// TODO: Don't use filesystem based routing for this
+// Determine routes to pre-render from src/pages
 const routesToPrerender = fs
   .readdirSync(toAbsolute("src/pages"))
   .map((file) => {
@@ -21,7 +20,7 @@ const routesToPrerender = fs
   });
 
 (async () => {
-  // pre-render each route...
+  // Pre-render each route
   for (const url of routesToPrerender) {
     const context = {};
     const appHtml = await render(url, context);

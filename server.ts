@@ -19,9 +19,9 @@ export const createServer = async (
   let viteServer;
 
   if (!isProd) {
-    viteServer = await (
-      await import("vite")
-    ).createServer({
+    const vite = await import("vite");
+
+    viteServer = await vite.createServer({
       root,
       logLevel: isTest ? "error" : "info",
       server: {
@@ -84,7 +84,7 @@ export const createServer = async (
 if (!isTest) {
   createServer().then(({ app }) =>
     app.listen(5173, () => {
-      console.log("http://localhost:5173");
+      console.log(`> Ready on http://localhost:5173`);
     })
   );
 }
