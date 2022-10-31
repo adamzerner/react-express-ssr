@@ -38,9 +38,7 @@ export const createServer = async (
         render = (await import("./dist/server/entry-server")).render;
       }
 
-      const context = {};
-      const appHtml = render(url, context);
-
+      const appHtml = render("home");
       const html = template.replace(`<!--app-html-->`, appHtml);
 
       res.status(200).set({ "Content-Type": "text/html" }).end(html);
