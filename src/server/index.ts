@@ -3,13 +3,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import express from "express";
+import setup from "./setup";
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 
 export const createServer = async (
   root = process.cwd(),
   isProd = process.env.NODE_ENV === "production",
-  hmrPort?: any
+  hmrPort?: number
 ) => {
   const resolve = (p: string) => path.resolve(__dirname, p);
 
@@ -18,37 +19,7 @@ export const createServer = async (
     : "";
 
   const app = express();
-  let viteServer;
-
-  if (!isProd) {
-    const vite = await import("vite");
-
-    viteServer = await vite.createServer({
-      root,
-      logLevel: isTest ? "error" : "info",
-      server: {
-        middlewareMode: true,
-        watch: {
-          // During tests we edit the files too fast and sometimes chokidar
-          // misses change events, so enforce polling for consistency
-          usePolling: true,
-          interval: 100,
-        },
-        hmr: {
-          port: hmrPort,
-        },
-      },
-      appType: "custom",
-    });
-    app.use(viteServer.middlewares);
-  } else {
-    app.use((await import("compression")).default());
-    app.use(
-      (await import("serve-static")).default(resolve("dist/client"), {
-        index: false,
-      })
-    );
-  }
+  const viteServer = await setup(app, root, isProd, isTest, hmrPort);
 
   app.use("*", async (req, res) => {
     try {
@@ -80,11 +51,11 @@ export const createServer = async (
     }
   });
 
-  return { app, viteServer };
+  return app;
 };
 
 if (!isTest) {
-  createServer().then(({ app }) =>
+  createServer().then((app) =>
     app.listen(5173, () => {
       console.log(`> Ready on http://localhost:5173`);
     })
