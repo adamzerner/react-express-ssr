@@ -4,7 +4,4 @@
     "module": "commonjs",
     "outDir": "dist"
   },
-  "include": [
-    "server"
-  ]
 }

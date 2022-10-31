@@ -1,3 +1,5 @@
+// Based on https://github.com/vitejs/vite/blob/main/playground/ssr-react/server.js
+
 import fs from "node:fs";
 import path from "node:path";
 import express from "express";
@@ -55,7 +57,7 @@ export const createServer = async (
       let template, render;
       if (!isProd) {
         // always read fresh template in dev
-        template = fs.readFileSync(resolve("index.html"), "utf-8");
+        template = fs.readFileSync(resolve("../index.html"), "utf-8");
         template = await viteServer.transformIndexHtml(url, template);
         render = (await viteServer.ssrLoadModule("/src/entry-server.tsx"))
           .render;
