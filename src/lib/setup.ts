@@ -1,6 +1,6 @@
 import path from "node:path";
 import { Express } from "express";
-import { isTestEnv } from "../utils/is-test-env";
+import { isTestEnv } from "./is-test-env";
 
 export default async (app: Express) => {
   const root = process.cwd();

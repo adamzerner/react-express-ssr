@@ -14,7 +14,8 @@ export const render = async (page, req, res) => {
       // always read fresh template in dev
       template = fs.readFileSync(resolve("../index.html"), "utf-8");
       template = await viteServer.transformIndexHtml(url, template);
-      render = (await viteServer.ssrLoadModule("/src/entry-server.tsx")).render;
+      render = (await viteServer.ssrLoadModule("/src/lib/entry-server.tsx"))
+        .render;
     } else {
       const indexProd = isProd
         ? fs.readFileSync(resolve("dist/client/index.html"), "utf-8")

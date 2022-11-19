@@ -1,9 +1,9 @@
 // Based on https://github.com/vitejs/vite/blob/main/playground/ssr-react/server.js
 
 import express from "express";
-import setup from "./setup";
+import setup from "../lib/setup";
 import router from "./router";
-import { isTestEnv } from "../utils/is-test-env";
+import { isTestEnv } from "../lib/is-test-env";
 
 const createServer = async () => {
   const app = express();

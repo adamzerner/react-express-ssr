@@ -1,5 +1,5 @@
 import express from "express";
-import { render } from "../render";
+import { render } from "../../lib/render";
 
 const router = express.Router();
 
