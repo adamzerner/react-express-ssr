@@ -9,8 +9,14 @@ const createServer = async () => {
   const app = express();
   const viteServer = await setup(app);
 
-  app.use("*", async (req, res) => {
+  app.get("/", async (req, res) => {
     render("home", req, res, viteServer);
+  });
+  app.get("/about", async (req, res) => {
+    render("about", req, res, viteServer);
+  });
+  app.use("*", async (req, res) => {
+    render("notFound", req, res, viteServer);
   });
   app.listen(5173, () => {
     console.log(`> Ready on http://localhost:5173`);
