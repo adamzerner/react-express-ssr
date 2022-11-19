@@ -27,7 +27,9 @@ export const render = async (page, req, res) => {
     }
 
     const appHtml = render(page);
-    const html = template.replace(`<!--app-html-->`, appHtml);
+    const html = template
+      .replace(`<!--app-html-->`, appHtml)
+      .replace("PAGE", page);
 
     res.status(200).set({ "Content-Type": "text/html" }).end(html);
   } catch (e: any) {
