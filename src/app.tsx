@@ -16,11 +16,9 @@ export default ({ page }: Props) => {
 
   return (
     <div>
-      <>
-        <div>navbar</div>
-        {mainContent}
-        <div>footer</div>
-      </>
+      <div>navbar</div>
+      {mainContent}
+      <div>footer</div>
     </div>
   );
 };
