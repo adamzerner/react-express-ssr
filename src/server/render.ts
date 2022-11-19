@@ -4,10 +4,11 @@ import path from "node:path";
 const resolve = (p: string) => path.resolve(__dirname, p);
 const isProd = process.env.NODE_ENV === "production";
 
-export const render = async (page, req, res, viteServer) => {
-  try {
-    const url = req.originalUrl;
+export const render = async (page, req, res) => {
+  const url = req.originalUrl;
+  const viteServer = res.locals.viteServer;
 
+  try {
     let template, render;
     if (!isProd) {
       // always read fresh template in dev

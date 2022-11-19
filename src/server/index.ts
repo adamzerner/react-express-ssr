@@ -2,25 +2,25 @@
 
 import express from "express";
 import setup from "./setup";
-import { render } from "./render";
+import router from "./router";
 import { isTestEnv } from "../utils/is-test-env";
 
 const createServer = async () => {
   const app = express();
   const viteServer = await setup(app);
 
-  app.get("/", async (req, res) => {
-    render("home", req, res, viteServer);
+  app.use((_, res, next) => {
+    res.locals = {
+      viteServer,
+    };
+    next();
   });
-  app.get("/about", async (req, res) => {
-    render("about", req, res, viteServer);
-  });
-  app.use("*", async (req, res) => {
-    render("notFound", req, res, viteServer);
-  });
+  app.use(router);
   app.listen(5173, () => {
     console.log(`> Ready on http://localhost:5173`);
   });
+
+  return app;
 };
 
 if (!isTestEnv) {
