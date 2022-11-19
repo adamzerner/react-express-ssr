@@ -3,26 +3,20 @@
 import express from "express";
 import setup from "./setup";
 import { render } from "./render";
+import { isTestEnv } from "../utils/is-test-env";
 
-const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
-
-export const createServer = async () => {
-  const root = process.cwd();
-  const isProd = process.env.NODE_ENV === "production";
+const createServer = async () => {
   const app = express();
-  const viteServer = await setup(app, root, isProd, isTest);
+  const viteServer = await setup(app);
 
   app.use("*", async (req, res) => {
     render("home", req, res, viteServer);
   });
-
-  return app;
+  app.listen(5173, () => {
+    console.log(`> Ready on http://localhost:5173`);
+  });
 };
 
-if (!isTest) {
-  createServer().then((app) =>
-    app.listen(5173, () => {
-      console.log(`> Ready on http://localhost:5173`);
-    })
-  );
+if (!isTestEnv) {
+  createServer();
 }

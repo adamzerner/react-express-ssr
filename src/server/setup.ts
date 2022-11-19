@@ -1,20 +1,18 @@
 import path from "node:path";
 import { Express } from "express";
+import { isTestEnv } from "../utils/is-test-env";
 
-export default async (
-  app: Express,
-  root: string,
-  isProd: boolean,
-  isTest: boolean
-) => {
+export default async (app: Express) => {
+  const root = process.cwd();
+  const isProdEnv = process.env.NODE_ENV === "production";
   const resolve = (p: string) => path.resolve(__dirname, p);
   let viteServer;
 
-  if (!isProd) {
+  if (!isProdEnv) {
     const vite = await import("vite");
     viteServer = await vite.createServer({
       root,
-      logLevel: isTest ? "error" : "info",
+      logLevel: isTestEnv ? "error" : "info",
       server: {
         middlewareMode: true,
         watch: {
