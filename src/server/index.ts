@@ -7,15 +7,12 @@ import setup from "./setup";
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 
-export const createServer = async (
-  root = process.cwd(),
-  isProd = process.env.NODE_ENV === "production",
-  hmrPort?: number
-) => {
+export const createServer = async () => {
+  const root = process.cwd();
+  const isProd = process.env.NODE_ENV === "production";
   const resolve = (p: string) => path.resolve(__dirname, p);
-
   const app = express();
-  const viteServer = await setup(app, root, isProd, isTest, hmrPort);
+  const viteServer = await setup(app, root, isProd, isTest);
 
   app.use("*", async (req, res) => {
     try {

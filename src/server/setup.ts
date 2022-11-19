@@ -5,8 +5,7 @@ export default async (
   app: Express,
   root: string,
   isProd: boolean,
-  isTest: boolean,
-  hmrPort: number | undefined
+  isTest: boolean
 ) => {
   const resolve = (p: string) => path.resolve(__dirname, p);
   let viteServer;
@@ -25,7 +24,7 @@ export default async (
           interval: 100,
         },
         hmr: {
-          port: hmrPort,
+          port: undefined,
         },
       },
       appType: "custom",
