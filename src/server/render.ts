@@ -4,9 +4,9 @@ import path from "node:path";
 const resolve = (p: string) => path.resolve(__dirname, p);
 const isProd = process.env.NODE_ENV === "production";
 
-export const render = async (page, viteServer) => {
+export const render = async (page, req, res, viteServer) => {
   try {
-    const url = "/"; // Used to be req.originalUrl;
+    const url = req.originalUrl;
 
     let template, render;
     if (!isProd) {
@@ -27,11 +27,10 @@ export const render = async (page, viteServer) => {
     const appHtml = render(page);
     const html = template.replace(`<!--app-html-->`, appHtml);
 
-    return [html];
+    res.status(200).set({ "Content-Type": "text/html" }).end(html);
   } catch (e: any) {
     !isProd && viteServer.ssrFixStacktrace(e);
     console.log(e.stack);
-
-    return [null, e.stack];
+    res.status(500).end(e.stack);
   }
 };
