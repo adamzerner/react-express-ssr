@@ -1,17 +1,10 @@
-import Home from "./pages/home";
-import About from "./pages/about";
-import NotFound from "./pages/error/not-found";
+import { pageToComponentMap } from "./page-to-component-map";
 
 type Props = {
   page: string;
 };
 
 export default ({ page }: Props) => {
-  const pageToComponentMap = {
-    home: <Home />,
-    about: <About />,
-    notFound: <NotFound />,
-  };
   const mainContent = pageToComponentMap[page];
 
   return (
