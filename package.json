@@ -2,12 +2,12 @@
   "name": "react-express-ssr",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "tsnd --project tsconfig.server.json src/server/index.ts",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --ssr src/lib/entry-server.tsx --outDir dist/server",
-    "generate": "vite build --outDir dist/static && npm run build:server",
     "serve": "NODE_ENV=production tsnd --project tsconfig.server.json src/server/index.ts",
     "debug": "tsnd --project tsconfig.server.json --inspect-brk src/server/index.ts"
   },

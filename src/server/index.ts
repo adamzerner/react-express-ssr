@@ -14,8 +14,6 @@ const createServer = async () => {
   app.listen(5173, () => {
     console.log(`> Ready on http://localhost:5173`);
   });
-
-  return app;
 };
 
 if (!isTestEnv) {
