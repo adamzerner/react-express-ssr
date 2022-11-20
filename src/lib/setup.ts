@@ -28,6 +28,12 @@ export default async (app: Express) => {
       appType: "custom",
     });
     app.use(viteServer.middlewares);
+    app.use((_, res, next) => {
+      res.locals = {
+        viteServer,
+      };
+      next();
+    });
   } else {
     app.use((await import("compression")).default());
     app.use(
@@ -36,6 +42,4 @@ export default async (app: Express) => {
       })
     );
   }
-
-  return viteServer;
 };

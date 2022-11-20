@@ -7,14 +7,9 @@ import { isTestEnv } from "../lib/is-test-env";
 
 const createServer = async () => {
   const app = express();
-  const viteServer = await setup(app);
 
-  app.use((_, res, next) => {
-    res.locals = {
-      viteServer,
-    };
-    next();
-  });
+  await setup(app);
+
   app.use(router);
   app.listen(5173, () => {
     console.log(`> Ready on http://localhost:5173`);
